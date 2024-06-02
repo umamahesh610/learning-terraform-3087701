@@ -47,6 +47,39 @@ resource "aws_instance" "blog" {
   }
 }
 
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "7.5.0"
+  
+  name     = "blog-autoscaling"
+  min_size = 1
+  max_size = 2
+
+  vpc_zone_identifier = module.blog_vpc.public_subnets
+  target_group_arns   = aws_lb_target_group.blog-alb-tg.arn
+  security_groups     = [module.blog_sg.security_group_id]
+
+  image_id      = data.aws_ami.app_ami.id
+  instance_type = var.instance_type
+
+  tag_specifications = [
+    {
+      resource_type = "instance"
+      tags          = { WhatAmI = "Instance" }
+    },
+    {
+      resource_type = "volume"
+      tags          = { WhatAmI = "Volume" }
+    }
+  ]
+
+  tags = {
+    Environment = "dev"
+    Project     = "megasecret"
+  }
+
+}
+
 resource "aws_lb_target_group" "blog-alb-tg" {
   name     = "blog-alb-tg"
   port     = 80
@@ -56,7 +89,7 @@ resource "aws_lb_target_group" "blog-alb-tg" {
 
 resource "aws_lb_target_group_attachment" "blog-alb-tg-att1" {
   target_group_arn = aws_lb_target_group.blog-alb-tg.arn
-  target_id        = aws_instance.blog.id
+#  target_id        = aws_instance.blog.id
   port             = 80
 }
 
