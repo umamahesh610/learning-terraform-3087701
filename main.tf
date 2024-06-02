@@ -87,11 +87,11 @@ resource "aws_lb_target_group" "blog-alb-tg" {
   vpc_id   = module.blog_vpc.vpc_id
 }
 
-resource "aws_lb_target_group_attachment" "blog-alb-tg-att1" {
-  target_group_arn = aws_lb_target_group.blog-alb-tg.arn
+#resource "aws_lb_target_group_attachment" "blog-alb-tg-att1" {
+#  target_group_arn = aws_lb_target_group.blog-alb-tg.arn
 #  target_id        = aws_instance.blog.id
-  port             = 80
-}
+#  port             = 80
+#}
 
 resource "aws_lb" "blog-alb" {
   name               = "blog-alb"
