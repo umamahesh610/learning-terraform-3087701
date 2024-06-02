@@ -32,6 +32,7 @@ module "blog_vpc" {
     Terraform = "true"
     Environment = "dev"
   }
+  
 }
 
 
