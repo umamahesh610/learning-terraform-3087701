@@ -3,10 +3,10 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "environment"{
-  description = "Define the environment like Dev, test"
-  default     = "Dev"
-  type = object ({
-    name = "dev"
-  })
-}
+#variable "environment"{
+#  description = "Define the environment like Dev, test"
+#  default     = "Dev"
+#  type = object ({
+#    name = "dev"
+#  })
+#}
